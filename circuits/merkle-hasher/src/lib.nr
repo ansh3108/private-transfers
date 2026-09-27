@@ -1,11 +1,14 @@
-fn not_equal(x: Field, y: Field) -> bool {
-    x != y
-}
+use poseidon::poseidon::bn254;
 
-#[test]
-fn test_not_equal() {
-    assert(not_equal(1, 2));
+pub fn compute_root(leaf: Field, path_indices: [bool; 2], siblings: [Field; 2]) -> Field {
+    let mut current_hash = leaf;
 
-    // Uncomment to make test fail
-    // assert(not_equal(1, 1));
+    for i in 0 .. 2 {
+        if path_indices[i] {
+            current_hash = bn254::hash_2([current_hash, siblings[i]]);
+        } else {
+            current_hash = bn254::hash_2([siblings[i], current_hash]);
+        }
+    }
+    current_hash
 }
