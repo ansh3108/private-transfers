@@ -1,0 +1,6 @@
+[package]
+name = "merkle_hasher"
+type = "lib"
+authors = [""]
+
+[dependencies]
