@@ -1,0 +1,7 @@
+amount = 0
+nullifier = 0
+nullifier_hash = 0
+path_indices = [false, false]
+root = 0
+secret = 0
+siblings = [0, 0]

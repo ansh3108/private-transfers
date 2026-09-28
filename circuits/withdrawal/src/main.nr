@@ -7,13 +7,12 @@ fn main(
     nullifier_hash: pub Field, 
     amount: pub Field, 
     nullifier: Field, 
+    secret: Field,
     path_indices: [bool; 2], 
     siblings: [Field; 2], 
-    secret: Field
     ) {
 
     let commitment = hasher::compute_commitment(nullifier, secret, amount);
-
     
     let calculated_root = merkle_hasher::compute_root(commitment, path_indices, siblings);
     assert(calculated_root == root);
@@ -21,4 +20,22 @@ fn main(
 
     let expected_nullifier = hasher::compute_nullifier(nullifier, secret);
     assert(expected_nullifier == nullifier_hash);
+}
+
+
+#[test]
+fn test_with_withdrawl() {
+    let nullifier = 1;
+    let secret = 2;
+    let amount= 10;
+
+    let siblings = [0, 0];
+    let path_indices = [false, false];
+
+    let commitment = hasher::compute_commitment(nullifier, secret, amount);
+    let nullifier_hash = hasher::compute_nullifier(nullifier, secret);
+
+    let root = merkle_hasher::compute_root(commitment, path_indices, siblings);
+
+    main(root, nullifier_hash, amount, nullifier, secret, path_indices, siblings);
 }
