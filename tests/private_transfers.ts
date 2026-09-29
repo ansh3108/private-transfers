@@ -19,7 +19,13 @@ describe("private transfers", () => {
         execSync("cd circuits/withdrawl && ~/sunspot/go/sunspot prove target/withdrawl.json", { studio: 'inherit' });
 
 
+        const tx = await program.methods
+            .withdraw(proofBuffer, rootArray, nullifierHashArray, amount)
+            .accounts({
 
+            })
+            .rpc();
+            
         console.log("Transaction Signature:", tx);
     });
 });
