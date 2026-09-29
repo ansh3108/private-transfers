@@ -17,3 +17,11 @@ wallet = "~/.config/solana/id.json"
 test = "cargo test"
 
 [hooks]
+
+
+[test]
+startup_wait = 5000
+
+[[test.genesis]]
+address = "27pnB3zKnQ7uC2saTV6jMzumNf8WYra6AxJjbLN5JftE" 
+program = "circuits/withdrawal/target/withdrawal.so"
