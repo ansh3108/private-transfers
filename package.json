@@ -1,0 +1,36 @@
+{
+  "name": "private_transfers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ansh3108/private-transfers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ansh3108/private-transfers/issues"
+  },
+  "homepage": "https://github.com/ansh3108/private-transfers#readme",
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.32.1",
+    "@solana/web3.js": "^1.99.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^26.6.3",
+    "chai": "^6.2.2",
+    "mocha": "^11.8.0",
+    "ts-mocha": "^11.1.0",
+    "typescript": "^5.9.3"
+  }
+}
