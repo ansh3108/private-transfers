@@ -9,6 +9,9 @@ pub use constants::*;
 pub use instructions::*;
 pub use state::*;
 
+use anchor_lang::prelude::*;
+use anchor_lang::solana_program::{instruction::Instruction, program::invoke};
+
 declare_id!("DQaB98bRsVCThsUqbRDH7CJYBCD2WeMHQbhHfWKKFCwU");
 
 #[program]
@@ -26,22 +29,26 @@ pub mod private_transfers {
         let mut amount_bytes = [0u8; 32];
         amount_bytes[24..32].copy_from_slice(&amount.to_be_bytes());
 
-        let public_inputs = vec![
-            root.to_vec(),
-            nullifier_hash.to_vec(),
-            amount_bytes.to_vec(),
-        ];
+        let mut ix_data = Vec::new();
+        ix_data.extend_from_slice(&proof);
+        ix_data.extend_from_slice(&root);
+        ix_data.extend_from_slice(&nullifier_hash);
+        ix_data.extend_from_slice(&amount_bytes);
 
-        sunspot::verify(
-            &VERIFICATION_KEY,
-            &proof,
-            &public_inputs
-        ).map_err(|_| ProgramError::Custom(1))?;
+        let verify_ix = Instruction {
+            program_id: *ctx.accounts.verifier_program.key,
+            accounts: vec![],
+            data: ix_data,
+        };
+
+        invoke (
+            &verify_ix,
+            &[ctx.accounts.verifier_program.to_account_info()],
+        )?;
 
         ctx.accounts.nullifier_account.hash = nullifier_hash;
 
-
-        **ctx.accounts.vault.try_borrow_mut_lamports()? -= amount;
+        **ctx.accounts.vault.try_borrow_mut_lamports()? -=amount;
         **ctx.accounts.user.try_borrow_mut_lamports()? += amount;
 
         Ok(())
@@ -71,6 +78,9 @@ pub struct Withdraw<'info> {
 
     ///CHECK: Program vault PDA holding the shared SOL pool
     pub vault: UncheckedAccount<'info>,
+
+    ///CHECK: The standalone Sunspot Groth16 verifier program
+    pub verifier_program: UncheckedAccount<'info>,
 
     pub system_program: Program<'info, System>, 
 }
