@@ -24,7 +24,7 @@ fn main(
 
 
 #[test]
-fn test_with_withdrawl() {
+fn test_with_withdrawal() {
     let nullifier = 1;
     let secret = 2;
     let amount= 10;

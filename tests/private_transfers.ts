@@ -13,10 +13,17 @@ describe("private transfers", () => {
 
     const VERIFIER_PROGRAM_ID = new PublicKey(""); //TODO
 
-    it("Generates a proof and executes the withdrawl", async () => {
+    it("Generates a proof and executes the withdrawal", async () => {
 
         console.log("Generating zero-knowledge proof...");
-        execSync("cd circuits/withdrawl && ~/sunspot/go/sunspot prove target/withdrawl.json", { studio: 'inherit' });
+        execSync("cd circuits/withdrawal && ~/sunspot/go/sunspot prove target/withdrawal.json", { stdio: 'inherit' });
+
+        const proofBuffer = fs.readFileSync('./circuits/withdrawal/target/withdrawal.proof');
+
+        const rootArray = Array.from({length: 32}, () => 0);
+        const nullifier_hash = Array.from({length: 32}, () => 0);
+
+        let amount = new anchor.BN(64);
 
 
         const tx = await program.methods
