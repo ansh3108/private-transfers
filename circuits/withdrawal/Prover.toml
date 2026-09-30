@@ -1,7 +1,7 @@
 amount = 0
 nullifier = 0
-nullifier_hash = 0
+nullifier_hash = "0x2098f5fb9e239eab3ceac3f27b81e481dc3124d55ffed523a839ee8446b64864"
 path_indices = [false, false]
-root = 0
+root = "0x270be589a81b3a580d8e2d36658d5937639e1e2baed4ce401e89fff52e29e99b"
 secret = 0
 siblings = [0, 0]
