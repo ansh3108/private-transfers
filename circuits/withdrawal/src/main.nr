@@ -14,8 +14,9 @@ fn main(
 
     let commitment = hasher::compute_commitment(nullifier, secret, amount);
     
-    let calculated_root = merkle_hasher::compute_root(commitment, path_indices, siblings);
+    let calculated_root: Field = merkle_hasher::compute_root(commitment, path_indices, siblings);
     assert(calculated_root == root);
+    
 
 
     let expected_nullifier = hasher::compute_nullifier(nullifier, secret);
