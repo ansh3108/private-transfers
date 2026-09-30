@@ -21,17 +21,31 @@ describe("private transfers", () => {
         const proofBuffer = fs.readFileSync('./circuits/withdrawal/target/withdrawal.proof');
 
         const rootArray = Array.from({length: 32}, () => 0);
-        const nullifier_hash = Array.from({length: 32}, () => 0);
+        const nullifierHashArray = Array.from({length: 32}, () => 0);
 
         let amount = new anchor.BN(64);
 
+        const [vaultPda] = PublicKey.findProgramAddressSync(
+            [Buffer.from("vault")],
+            program.programId
+        );
+
+        const [nullifierPda] = PublicKey.findProgramAddressSync(
+            [Buffer.from(nullifierHashArray)],
+            program.programId
+        );
+
 
         const tx = await program.methods
-            .withdraw(proofBuffer, rootArray, nullifierHashArray, amount)
-            .accounts({
-
-            })
-            .rpc();
+        .withdraw(proofBuffer, rootArray, nullifierHashArray, amount)
+        .accounts({
+            user: provider.wallet.publicKey,
+            nullifierAccount: nullifierPda,
+            vault: vaultPda,
+            verifierProgram: VERIFIER_PROGRAM_ID,
+            systemProgram: SystemProgram.programId,
+        })
+        .rpc();
             
         console.log("Transaction Signature:", tx);
     });
