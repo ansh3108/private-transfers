@@ -10,7 +10,7 @@ skip-lint = false
 private_transfers = "DQaB98bRsVCThsUqbRDH7CJYBCD2WeMHQbhHfWKKFCwU"
 
 [provider]
-cluster = "localnet"
+cluster = "http://127.0.0.1:8899"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
@@ -23,5 +23,5 @@ test = "npx ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
 startup_wait = 5000
 
 [[test.genesis]]
-address = "27pnB3zKnQ7uC2saTV6jMzumNf8WYra6AxJjbLN5JftE" 
+address = "Gy1s8JuJNNUTaMcvso6sRqowdSCMVXvx1LfBanZycLuH" 
 program = "circuits/withdrawal/target/withdrawal.so"

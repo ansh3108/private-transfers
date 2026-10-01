@@ -11,7 +11,7 @@ describe("private transfers", () => {
 
     const program = anchor.workspace.PrivateTransfers as Program<PrivateTransfers>;
 
-    const VERIFIER_PROGRAM_ID = new PublicKey("27pnB3zKnQ7uC2saTV6jMzumNf8WYra6AxJjbLN5JftE"); 
+    const VERIFIER_PROGRAM_ID = new PublicKey("3kAgXZtVfNdeWb6p9WLbAWCXQsERLC3nvxQKsxun9hUw"); 
 
     it("Generates a proof and executes the withdrawal", async () => {
 
@@ -23,7 +23,13 @@ describe("private transfers", () => {
             { stdio: 'inherit' }
         );
 
-        const proofBuffer = fs.readFileSync('./circuits/withdrawal/target/withdrawal.proof');
+        let proofHex = fs.readFileSync('circuits/withdrawal/target/withdrawal.proof', "utf-8").trim();
+
+        if(proofHex.startsWith("0x")) {
+            proofHex = proofHex.slice(2);
+        }
+
+        const proofBuffer = Buffer.from(proofHex, "hex");
 
         const rootArray = Array.from(Buffer.from("270be589a81b3a580d8e2d36658d5937639e1e2baed4ce401e89fff52e29e99b", "hex"));
         const nullifierHashArray = Array.from(Buffer.from("2098f5fb9e239eab3ceac3f27b81e481dc3124d55ffed523a839ee8446b64864", "hex"));
