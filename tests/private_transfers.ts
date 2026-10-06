@@ -63,6 +63,14 @@ describe("private transfers", () => {
         `CRITICAL: Proof buffer is ${proofBuffer.length} bytes, but expected exactly 324!`,
       );
     }
+    const x0 = proofBuffer.subarray(64, 96);
+    const x1 = proofBuffer.subarray(96, 128);
+    const y0 = proofBuffer.subarray(128, 160);
+    const y1 = proofBuffer.subarray(160, 192);
+
+    const swappedG2 = Buffer.concat([x1, x0, y1, y0]);
+    swappedG2.copy(proofBuffer, 64);
+    console.log("🔄 Swapped G2 coordinates for Solana Alt-BN128 verification.");
 
     const rootArray = Array.from(
       Buffer.from(
